@@ -1,0 +1,11 @@
+{
+    "name": "Eye plugin",
+    "version": "1.0.0",
+    "description": "Hello world for now",
+    "manifest_version": 3,
+    "author": "Johann Faust VII",
+    "action":{
+        "default_popup": "index.html",
+        "default_title": "Hello World"
+    }
+}
