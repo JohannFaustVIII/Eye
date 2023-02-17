@@ -7,5 +7,14 @@
     "action":{
         "default_popup": "index.html",
         "default_title": "Hello World"
-    }
+    },
+    "content_scripts": [
+        {
+          "js": ["scripts/link-filter.js"],
+          "matches": [
+            "https://www.linkedin.com/jobs/search*",
+            "https://linkedin.com/jobs/search*"
+          ]
+        }
+    ]
 }
