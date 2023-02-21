@@ -1,5 +1,5 @@
-let savedCompanies = getCompanies();
-render();
+let savedCompanies = [];
+getCompanies();
 
 function add() {
   const companyTitle = document.getElementById("company").value;
@@ -37,16 +37,18 @@ function removeCompany(company) {
 }
 
 function saveCompanies() {
-  localStorage.setItem('EyeCompanies', JSON.stringify(savedCompanies));
+  chrome.storage.local.set({'EyeCompanies': savedCompanies});
 }
 
 function getCompanies() {
-  const comps = JSON.parse(localStorage.getItem('EyeCompanies'));
-  if (Array.isArray(comps)) {
-    return comps;
-  } else {
-    return [];
-  }
+  chrome.storage.local.get(['EyeCompanies']).then((result) => {
+    if (result.EyeCompanies) {
+      savedCompanies = result.EyeCompanies
+    } else {
+      savedCompanies = []
+    }
+    render();
+  });
 }
 
 function render() {

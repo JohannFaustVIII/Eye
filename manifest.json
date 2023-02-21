@@ -16,5 +16,8 @@
             "https://linkedin.com/jobs/search*"
           ]
         }
+    ],
+    "permissions": [
+      "storage"
     ]
 }
