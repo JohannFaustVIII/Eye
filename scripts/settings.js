@@ -2,10 +2,16 @@ let savedCompanies = [];
 getCompanies();
 
 function add() {
-  const companyTitle = document.getElementById("company").value;
+  const companyInput = document.getElementById("company")
+  const companyTitle = companyInput.value;
 
   addCompany(companyTitle)
   render();
+  clearInput(companyInput)
+}
+
+function clearInput(element) {
+  element.value = '';
 }
 
 function deleteCompany(event) {
@@ -26,6 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function addCompany(company) {
   savedCompanies.push(company);
+  sortCompanies();
   saveCompanies();
 }
 
@@ -33,6 +40,7 @@ function removeCompany(company) {
   savedCompanies = savedCompanies.filter( (c) => {
     return c !== company;
   })
+  sortCompanies();
   saveCompanies();
 }
 
@@ -47,8 +55,17 @@ function getCompanies() {
     } else {
       savedCompanies = []
     }
+    sortCompanies();
     render();
   });
+}
+
+function sortCompanies() {
+  savedCompanies.sort( (a, b) => {
+    if (a < b) return -1;
+    else if (a > b) return 1;
+    else return 0;
+  })
 }
 
 function render() {
@@ -56,10 +73,12 @@ function render() {
 
   savedCompanies.forEach(function (company) {
     const element = document.createElement('div');
+    element.classList.add('company-item');
     element.innerText = company;
 
     const deleteButton = document.createElement('button');
     deleteButton.innerText = '-';
+    deleteButton.classList.add('delete-button')
     deleteButton.style = 'margin-left: 12px;';
     deleteButton.id = company;
     deleteButton.onclick = deleteCompany;

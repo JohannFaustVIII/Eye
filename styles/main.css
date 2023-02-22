@@ -19,6 +19,65 @@ body {
   align-items: center;
 }
 
-.content-box div{
-  text-align: center;
+.input-line {
+  margin-top: 4px; 
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  margin-left: -2px;
+  margin-right: -1px;
+}
+
+.company-input {
+  border-radius: 0px;
+  border-width: 1px;
+  margin-right: -1px;
+  height: 22px;
+  width: 100%;
+
+  font-family: Julee, Arial;
+}
+
+.company-input:focus {
+  outline: none;
+  border-radius: 0px;
+  border-width: 2px;
+  height: 20px
+}
+
+.company-add {
+  width: 22px;
+  border-radius: 0px;
+  border-width: 1px;
+  transition: background-color 0.15s;
+}
+
+.company-add:hover {
+  background-color: green;
+}
+
+.company-item {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  margin: -1px -1px 0px 0px;
+  border-top: 1px;
+  border-bottom: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  font-size: 20px;
+}
+
+.delete-button {
+  width: 22px;
+  border-radius: 0px;
+  border-width: 1px;
+  margin-top: -1px;
+  margin-bottom: -1px;
+  transition: background-color 0.15s;
+}
+
+.delete-button:hover {
+  background-color: red;
 }
