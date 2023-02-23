@@ -1,5 +1,7 @@
 let savedCompanies = [];
+let fullHide = false;
 getCompanies();
+getFullHide();
 
 function add() {
   const companyInput = document.getElementById("company")
@@ -8,6 +10,12 @@ function add() {
   addCompany(companyTitle)
   render();
   clearInput(companyInput)
+}
+
+function setHidden() {
+  const isChecked = document.getElementById("full-hide").checked;
+  
+  setFullHide(isChecked);
 }
 
 function clearInput(element) {
@@ -27,6 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (but) {
       but.addEventListener("click", add);
     }
+
+    var fullHideCheckbox = document.getElementById("full-hide");
+    if (fullHideCheckbox) {
+      fullHideCheckbox.addEventListener("change", setHidden)
+    }
   }
 )
 
@@ -42,6 +55,11 @@ function removeCompany(company) {
   })
   sortCompanies();
   saveCompanies();
+}
+
+function setFullHide(isFullHide) {
+  fullHide = isFullHide;
+  saveFullHide();
 }
 
 function saveCompanies() {
@@ -68,8 +86,24 @@ function sortCompanies() {
   })
 }
 
+function saveFullHide() {
+  chrome.storage.local.set({'EyeFullHide': fullHide});
+}
+
+function getFullHide() {
+  chrome.storage.local.get(['EyeFullHide']).then((result) => {
+    if (result.EyeFullHide) {
+      fullHide = result.EyeFullHide;
+    } else {
+      fullHide = false;
+    }
+    render();
+  });
+}
+
 function render() {
   document.getElementById("company-ignore-list").innerHTML = "";
+  document.getElementById("full-hide").checked = fullHide;
 
   savedCompanies.forEach(function (company) {
     const element = document.createElement('div');

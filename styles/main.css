@@ -21,7 +21,7 @@ body {
 
 .input-line {
   margin-top: 4px; 
-  margin-bottom: 12px;
+  margin-bottom: 4px;
   display: flex;
   flex-direction: row;
   justify-content:space-between;
@@ -55,6 +55,17 @@ body {
 
 .company-add:hover {
   background-color: green;
+}
+
+.full-hide-line {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.full-hide-checkbox {
+  margin-left: 0px;
 }
 
 .company-item {
