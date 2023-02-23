@@ -16,6 +16,7 @@ const filt =  async () => {
         setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
       } 
     })
+    removeRedundantContent();
   });
 }
 setInterval(filt, 200)
@@ -58,4 +59,10 @@ function getAndListenFullHideMode() {
         isFullHideMode = changes.EyeFullHide.newValue;
     }
 });
+}
+
+function removeRedundantContent() {
+  document.querySelectorAll("div.premium-upsell-link").forEach( (node) => {
+    node.innerHTML = "";
+  });
 }
