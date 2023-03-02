@@ -1,7 +1,9 @@
 let isFullHideMode = false;
+let isHideOffersFromNoCompanies = false;
 let ignoredCompanies = [];
 
 getAndListenFullHideMode();
+getAndListenHigeOffersFromNoCompanies();
 getAndListenIgnoredCompanies();
 
 function getAndListenFullHideMode() {
@@ -16,6 +18,22 @@ function getAndListenFullHideMode() {
   chrome.storage.onChanged.addListener(function(changes, namespace) {
     if ("EyeFullHide" in changes) {
         isFullHideMode = changes.EyeFullHide.newValue;
+    }
+  });
+}
+
+function getAndListenHigeOffersFromNoCompanies() {
+  chrome.storage.local.get(['EyeHideNoCompanies']).then((result) => {
+    if (result.EyeHideNoCompanies) {
+      isHideOffersFromNoCompanies = result.EyeHideNoCompanies;
+    } else {
+      isHideOffersFromNoCompanies = false;
+    }
+  });
+
+  chrome.storage.onChanged.addListener(function(changes, namespace) {
+    if ("EyeHideNoCompanies" in changes) {
+      isHideOffersFromNoCompanies = changes.EyeHideNoCompanies.newValue;
     }
   });
 }
@@ -42,7 +60,9 @@ const filterOffers =  async () => {
     if (names && names.length > 0) {
       setBackground(node, names[0].innerText.trim(), ignoredCompanies);
       setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
-    } 
+    } else {
+      setDisplayForNoCompanies(node);
+    }
   })
   removeRedundantContent();
 }
@@ -68,6 +88,14 @@ function setDisplay(node, text, ignoredCompanies) {
     } else {
       node.style.display = "block"
     }
+  } else {
+    node.style.display = "block"
+  }
+}
+
+function setDisplayForNoCompanies(node) {
+  if (isHideOffersFromNoCompanies) {
+    node.style.display = "none"
   } else {
     node.style.display = "block"
   }

@@ -1,7 +1,10 @@
 let savedCompanies = [];
 let fullHide = false;
+let hideNoCompanies = false;
+
 getCompanies();
 getFullHide();
+getHideNoCompanies();
 
 function add() {
   const companyInput = document.getElementById("company")
@@ -16,6 +19,12 @@ function setHidden() {
   const isChecked = document.getElementById("full-hide").checked;
   
   setFullHide(isChecked);
+}
+
+function setHiddenNoCompanies() {
+  const isChecked = document.getElementById("hide-no-companies").checked;
+  
+  setHideNoCompanies(isChecked);
 }
 
 function clearInput(element) {
@@ -40,6 +49,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (fullHideCheckbox) {
       fullHideCheckbox.addEventListener("change", setHidden)
     }
+
+    var hideNoCompaniesCheckbox = document.getElementById("hide-no-companies");
+    if (hideNoCompaniesCheckbox) {
+      hideNoCompaniesCheckbox.addEventListener("change", setHiddenNoCompanies)
+    }
   }
 )
 
@@ -60,6 +74,11 @@ function removeCompany(company) {
 function setFullHide(isFullHide) {
   fullHide = isFullHide;
   saveFullHide();
+}
+
+function setHideNoCompanies(isHideNoCompanies) {
+  hideNoCompanies = isHideNoCompanies;
+  saveHideNoCompanies();
 }
 
 function saveCompanies() {
@@ -90,6 +109,10 @@ function saveFullHide() {
   chrome.storage.local.set({'EyeFullHide': fullHide});
 }
 
+function saveHideNoCompanies() {
+  chrome.storage.local.set({'EyeHideNoCompanies': hideNoCompanies});
+}
+
 function getFullHide() {
   chrome.storage.local.get(['EyeFullHide']).then((result) => {
     if (result.EyeFullHide) {
@@ -101,9 +124,21 @@ function getFullHide() {
   });
 }
 
+function getHideNoCompanies() {
+  chrome.storage.local.get(['EyeHideNoCompanies']).then((result) => {
+    if (result.EyeHideNoCompanies) {
+      hideNoCompanies = result.EyeHideNoCompanies;
+    } else {
+      hideNoCompanies = false;
+    }
+    render();
+  });
+}
+
 function render() {
   document.getElementById("company-ignore-list").innerHTML = "";
   document.getElementById("full-hide").checked = fullHide;
+  document.getElementById("hide-no-companies").checked = hideNoCompanies;
 
   savedCompanies.forEach(function (company) {
     const element = document.createElement('div');
