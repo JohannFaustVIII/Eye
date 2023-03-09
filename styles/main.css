@@ -104,3 +104,9 @@ body {
 .delete-button:hover {
   background-color: red;
 }
+
+.company-list {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
