@@ -1,0 +1,21 @@
+.full-hide-line {
+  margin-bottom: 4px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.full-hide-checkbox {
+  margin-left: 0px;
+}
+
+.hide-no-companies-line {
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.hide-no-companies-checkbox {
+  margin-left: 0px;
+}

@@ -1,0 +1,30 @@
+.company-item {
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  margin: -1px -1px 0px 0px;
+  border-top: 1px;
+  border-bottom: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  font-size: 20px;
+}
+
+.delete-button {
+  width: 22px;
+  border-radius: 0px;
+  border-width: 1px;
+  margin-top: -1px;
+  margin-bottom: -1px;
+  transition: background-color 0.15s;
+}
+
+.delete-button:hover {
+  background-color: red;
+}
+
+.company-list {
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
