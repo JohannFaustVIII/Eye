@@ -85,6 +85,7 @@ function setDisplay(node, text, ignoredCompanies) {
   let display = "block";
 
   if (isFullHideMode) {
+    console.log(text + " " + ignoredCompanies)
     if (ignoredCompanies.includes(text)) {
       display = "none";
     }
@@ -100,7 +101,7 @@ function setDisplayForNoCompanies(node) {
     display = "none";
   }
 
-  setDisplay(node, display);
+  setNodeDisplay(node, display);
 }
 
 function removeRedundantContent() {
