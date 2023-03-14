@@ -67,42 +67,52 @@ const filterOffers =  async () => {
   removeRedundantContent();
 }
 
-setInterval(filterOffers, 200)
+setInterval(filterOffers, 50);
 
 function setBackground(node, text, ignoredCompanies) {
+  let background = "cornsilk";
+
   if (!isFullHideMode) {
     if (ignoredCompanies.includes(text)) {
-      node.style.background = "darkblue"
-    } else {
-      node.style.background = "cornsilk"
+      background = "darkblue";
     }
-  } else {
-    node.style.background = "cornsilk"
   }
+
+  setNodeBackground(node, background);
 }
 
 function setDisplay(node, text, ignoredCompanies) {
+  let display = "block";
+
   if (isFullHideMode) {
     if (ignoredCompanies.includes(text)) {
-      node.style.display = "none"
-    } else {
-      node.style.display = "block"
+      display = "none";
     }
-  } else {
-    node.style.display = "block"
   }
+
+  setNodeDisplay(node, display);
 }
 
 function setDisplayForNoCompanies(node) {
+  let display = "block";
+
   if (isHideOffersFromNoCompanies) {
-    node.style.display = "none"
-  } else {
-    node.style.display = "block"
+    display = "none";
   }
+
+  setDisplay(node, display);
 }
 
 function removeRedundantContent() {
   document.querySelectorAll("div.premium-upsell-link").forEach( (node) => {
     node.innerHTML = "";
   });
+}
+
+function setNodeBackground(node, bg) {
+  node.style.background = bg;
+}
+
+function setNodeDisplay(node, dis) {
+  node.style.display = dis;
 }
