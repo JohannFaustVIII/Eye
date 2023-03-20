@@ -45,6 +45,16 @@ document.addEventListener('DOMContentLoaded', () => {
       but.addEventListener("click", add);
     }
 
+    var companyInput = document.getElementById("company");
+    if (companyInput) {
+      companyInput.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.key === 'Enter') {
+          add();
+        }
+      })
+    }
+    
     var fullHideCheckbox = document.getElementById("full-hide");
     if (fullHideCheckbox) {
       fullHideCheckbox.addEventListener("change", setHidden)
