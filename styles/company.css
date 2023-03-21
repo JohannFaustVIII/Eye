@@ -16,6 +16,7 @@
   border-width: 1px;
   margin-top: -1px;
   margin-bottom: -1px;
+  margin-left: 12px;
   transition: background-color 0.15s;
 }
 

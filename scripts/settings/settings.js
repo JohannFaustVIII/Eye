@@ -6,12 +6,14 @@ getCompanies();
 getFullHide();
 getHideNoCompanies();
 
+setEventListeners();
+
 function add() {
   const companyInput = document.getElementById("company")
   const companyTitle = companyInput.value;
 
   addCompany(companyTitle)
-  render();
+  renderCompanyList();
   clearInput(companyInput)
 }
 
@@ -36,36 +38,50 @@ function deleteCompany(event) {
   const companyToDelete = deleteButton.id;
 
   removeCompany(companyToDelete);
-  render();
+  renderCompanyList();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    var but = document.getElementById("add-button");
-    if (but) {
-      but.addEventListener("click", add);
-    }
+function setEventListeners() {
+  document.addEventListener('DOMContentLoaded', () => {
+    listenAddButton(add);
+    listenEnterAddCompany(add);
+    listenFullHideButton(setHidden);
+    listenHideNoCompaniesButton(setHiddenNoCompanies);
+  });
+}
 
-    var companyInput = document.getElementById("company");
-    if (companyInput) {
-      companyInput.addEventListener("keyup", function(event) {
-        event.preventDefault();
-        if (event.key === 'Enter') {
-          add();
-        }
-      })
-    }
-    
-    var fullHideCheckbox = document.getElementById("full-hide");
-    if (fullHideCheckbox) {
-      fullHideCheckbox.addEventListener("change", setHidden)
-    }
-
-    var hideNoCompaniesCheckbox = document.getElementById("hide-no-companies");
-    if (hideNoCompaniesCheckbox) {
-      hideNoCompaniesCheckbox.addEventListener("change", setHiddenNoCompanies)
-    }
+function listenAddButton(func) {
+  var but = document.getElementById("add-button");
+  if (but) {
+    but.addEventListener("click", func);
   }
-)
+}
+
+function listenEnterAddCompany(func) {
+  var companyInput = document.getElementById("company");
+  if (companyInput) {
+    companyInput.addEventListener("keyup", function(event) {
+      event.preventDefault();
+      if (event.key === 'Enter') {
+        func();
+      }
+    });
+  }
+}
+
+function listenFullHideButton(func) {
+  var fullHideCheckbox = document.getElementById("full-hide");
+  if (fullHideCheckbox) {
+    fullHideCheckbox.addEventListener("change", func);
+  }
+}
+
+function listenHideNoCompaniesButton(func) {
+  var hideNoCompaniesCheckbox = document.getElementById("hide-no-companies");
+  if (hideNoCompaniesCheckbox) {
+    hideNoCompaniesCheckbox.addEventListener("change", func);
+  }
+}
 
 function addCompany(company) {
   savedCompanies.push(company);
@@ -98,13 +114,16 @@ function saveCompanies() {
 function getCompanies() {
   chrome.storage.local.get(['EyeCompanies']).then((result) => {
     if (result.EyeCompanies) {
-      savedCompanies = result.EyeCompanies
+      return result.EyeCompanies;
     } else {
-      savedCompanies = []
+      return [];
     }
+  }).then( (companies) => {
+    savedCompanies = companies;
     sortCompanies();
-    render();
-  });
+  }).then( () => {
+    renderCompanyList();
+  })
 }
 
 function sortCompanies() {
@@ -126,29 +145,41 @@ function saveHideNoCompanies() {
 function getFullHide() {
   chrome.storage.local.get(['EyeFullHide']).then((result) => {
     if (result.EyeFullHide) {
-      fullHide = result.EyeFullHide;
+      return result.EyeFullHide;
     } else {
-      fullHide = false;
+      return false;
     }
-    render();
+  }).then((hide) => {
+    fullHide = hide;
+  }).then( () => {
+    renderFullHideCheckbox();
   });
 }
 
 function getHideNoCompanies() {
   chrome.storage.local.get(['EyeHideNoCompanies']).then((result) => {
     if (result.EyeHideNoCompanies) {
-      hideNoCompanies = result.EyeHideNoCompanies;
+      return result.EyeHideNoCompanies;
     } else {
-      hideNoCompanies = false;
+      return false;
     }
-    render();
+  }).then( (hide) => {
+    hideNoCompanies = hide;
+  }).then( () => {
+    renderNoCompanyCheckbox();
   });
 }
 
-function render() {
-  document.getElementById("company-ignore-list").innerHTML = "";
+function renderFullHideCheckbox() {
   document.getElementById("full-hide").checked = fullHide;
+}
+
+function renderNoCompanyCheckbox() {
   document.getElementById("hide-no-companies").checked = hideNoCompanies;
+}
+
+function renderCompanyList() {
+  document.getElementById("company-ignore-list").innerHTML = "";
 
   savedCompanies.forEach(function (company) {
     const element = document.createElement('div');
@@ -157,12 +188,11 @@ function render() {
 
     const deleteButton = document.createElement('button');
     deleteButton.innerText = '-';
-    deleteButton.classList.add('delete-button')
-    deleteButton.style = 'margin-left: 12px;';
+    deleteButton.classList.add('delete-button');
     deleteButton.id = company;
     deleteButton.onclick = deleteCompany;
     element.append(deleteButton);
 
     document.getElementById("company-ignore-list").appendChild(element);
-  })
+  });
 }
