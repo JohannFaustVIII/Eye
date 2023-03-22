@@ -17,6 +17,7 @@
     "content_scripts": [
         {
           "js": ["scripts/filtering/link-filter.js"],
+          "css": ["styles/filtering-style.css"],
           "matches": [
             "https://www.linkedin.com/*",
             "https://linkedin.com/*"

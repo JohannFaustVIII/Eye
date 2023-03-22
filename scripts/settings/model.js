@@ -33,6 +33,9 @@ export function getCompanies() {
     } else {
       return [];
     }
+  }).then( (companies) => {
+    sortCompanies(companies);
+    return companies;
   });
 }
 

@@ -56,10 +56,11 @@ function getAndListenIgnoredCompanies() {
 
 const filterOffers =  async () => {
   document.querySelectorAll("div.job-card-container").forEach( node => {
-    const names = node.querySelectorAll("a.job-card-container__company-name")
+    const names = node.querySelectorAll("a.job-card-container__company-name");
     if (names && names.length > 0) {
       setBackground(node, names[0].innerText.trim(), ignoredCompanies);
       setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
+      addFilterButtonIfNeeded(node, names[0].innerText.trim());
     } else {
       setDisplayForNoCompanies(node);
     }
@@ -85,7 +86,6 @@ function setDisplay(node, text, ignoredCompanies) {
   let display = "block";
 
   if (isFullHideMode) {
-    console.log(text + " " + ignoredCompanies)
     if (ignoredCompanies.includes(text)) {
       display = "none";
     }
@@ -116,4 +116,25 @@ function setNodeBackground(node, bg) {
 
 function setNodeDisplay(node, dis) {
   node.style.display = dis;
+}
+
+function addFilterButtonIfNeeded(node, companyName) {
+  const companyDiv = node.querySelectorAll('div.artdeco-entity-lockup__subtitle');
+  if (companyDiv && companyDiv.length > 0) {
+    const filterOutButton = companyDiv[0].querySelectorAll('button.filter-out-button');
+    if (!filterOutButton || filterOutButton.length == 0) {
+      const deleteButton = document.createElement('button');
+      deleteButton.innerText = '-';
+      deleteButton.classList.add('filter-out-button');
+      deleteButton.onclick = filterOutCompany(companyName);
+      companyDiv[0].append(deleteButton);
+    }
+  }
+}
+
+function filterOutCompany(companyName) {
+  return () => {
+    ignoredCompanies.push(companyName);
+    chrome.storage.local.set({'EyeCompanies': ignoredCompanies});
+  }
 }
