@@ -60,7 +60,7 @@ const filterOffers =  async () => {
     if (names && names.length > 0) {
       setBackground(node, names[0].innerText.trim(), ignoredCompanies);
       setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
-      addFilterButtonIfNeeded(node, names[0].innerText.trim());
+      addFilterButtonIfNeeded(node, names[0].innerText.trim(), ignoredCompanies);
     } else {
       setDisplayForNoCompanies(node);
     }
@@ -118,16 +118,34 @@ function setNodeDisplay(node, dis) {
   node.style.display = dis;
 }
 
-function addFilterButtonIfNeeded(node, companyName) {
+function addFilterButtonIfNeeded(node, companyName, ignoredCompanies) {
   const companyDiv = node.querySelectorAll('div.artdeco-entity-lockup__subtitle');
   if (companyDiv && companyDiv.length > 0) {
     const filterOutButton = companyDiv[0].querySelectorAll('button.filter-out-button');
-    if (!filterOutButton || filterOutButton.length == 0) {
-      const deleteButton = document.createElement('button');
-      deleteButton.innerText = '-';
-      deleteButton.classList.add('filter-out-button');
-      deleteButton.onclick = filterOutCompany(companyName);
-      companyDiv[0].append(deleteButton);
+    const filterInButton = companyDiv[0].querySelectorAll('button.filter-in-button');
+    if (ignoredCompanies.includes(companyName)) {
+      if (filterOutButton && filterOutButton.length > 0) {
+        filterOutButton[0].remove();
+      }
+      if (!filterInButton || filterInButton.length == 0) {
+        const addButton = document.createElement('button');
+        addButton.innerText = '+';
+        addButton.classList.add('filter-in-button');
+        addButton.onclick = filterInCompany(companyName);
+        companyDiv[0].append(addButton);
+      }
+    } else {
+      if (filterInButton && filterInButton.length > 0) {
+        filterInButton[0].remove();
+      }
+
+      if (!filterOutButton || filterOutButton.length == 0) {
+        const deleteButton = document.createElement('button');
+        deleteButton.innerText = '-';
+        deleteButton.classList.add('filter-out-button');
+        deleteButton.onclick = filterOutCompany(companyName);
+        companyDiv[0].append(deleteButton);
+      }
     }
   }
 }
@@ -136,5 +154,14 @@ function filterOutCompany(companyName) {
   return () => {
     ignoredCompanies.push(companyName);
     chrome.storage.local.set({'EyeCompanies': ignoredCompanies});
-  }
+  };
+}
+
+function filterInCompany(companyName) {
+  return () => {
+    ignoredCompanies = ignoredCompanies.filter( (c) => {
+      return c !== companyName;
+    });
+    chrome.storage.local.set({'EyeCompanies': ignoredCompanies});
+  };
 }
