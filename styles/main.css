@@ -13,6 +13,7 @@ body {
 }
 
 .content-box {
+  max-width: 300px;
   display: grid;
   grid-template-columns: 1fr;
   justify-content: center;

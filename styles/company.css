@@ -10,7 +10,15 @@
   font-size: 20px;
 }
 
+.company-name {
+  max-width: 250px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  overflow-wrap: break-word;
+}
+
 .delete-button {
+  min-width: 22px;
   width: 22px;
   border-radius: 0px;
   border-width: 1px;

@@ -18,7 +18,10 @@ export function renderCompanyList(companies) {
   companies.forEach(function (company) {
     const element = document.createElement('div');
     element.classList.add('company-item');
-    element.innerText = company;
+    const companyName = document.createElement('p');
+    companyName.innerText = company;
+    companyName.classList.add('company-name');
+    element.append(companyName);
 
     const deleteButton = document.createElement('button');
     deleteButton.innerText = '-';
