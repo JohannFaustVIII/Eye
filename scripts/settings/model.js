@@ -1,7 +1,9 @@
+var activeTab = "ignored";
+
 export function addCompany(company) {
   return getCompanies().then((companies) => {
-    companies.push(company);
-    sortCompanies(companies);
+    companies[activeTab].push(company);
+    sortCompanies(companies[activeTab]);
     return companies;
   }).then( (companies) => {
     saveCompanies(companies);
@@ -11,10 +13,10 @@ export function addCompany(company) {
 
 export function removeCompany(company) {
   return getCompanies().then((companies) => {
-    companies = companies.filter( (c) => {
+    companies[activeTab] = companies[activeTab].filter( (c) => {
       return c !== company;
     });
-    sortCompanies(companies);
+    sortCompanies(companies[activeTab]);
     return companies;
   }).then( (companies) => {
     saveCompanies(companies);
@@ -23,22 +25,29 @@ export function removeCompany(company) {
 }
 
 function saveCompanies(companies) {
-  chrome.storage.local.set({'EyeCompanies': companies});
+  chrome.storage.local.set({'EyeCompanies': companies["ignored"], 'EyeFavoriteCompanies' : companies["favorite"]});
 }
 
 export function getCompanies() {
-  return chrome.storage.local.get(['EyeCompanies']).then((result) => {
+  return chrome.storage.local.get(['EyeCompanies', 'EyeFavoriteCompanies']).then((result) => {
+    var ignoredCompanies = [];
+    var favoriteCompanies = [];
     if (result.EyeCompanies) {
-      return result.EyeCompanies;
-    } else {
-      return [];
+      ignoredCompanies = result.EyeCompanies;
     }
+    if (result.EyeFavoriteCompanies) {
+      favoriteCompanies = result.EyeFavoriteCompanies;
+    }
+    return {
+      "ignored" : ignoredCompanies,
+      "favorite" : favoriteCompanies
+    };
   }).then( (companies) => {
-    sortCompanies(companies);
+    sortCompanies(companies["ignored"]);
+    sortCompanies(companies["favorite"]);
     return companies;
   });
 }
-
 function sortCompanies(companies) {
   companies.sort( (a, b) => {
     if (a < b) return -1;
@@ -72,5 +81,18 @@ export function getHideNoCompanies() {
     } else {
       return false;
     }
+  });
+}
+
+export function setActiveTab(tabName) {
+  return new Promise( (resolve) => {
+    activeTab = tabName;
+    resolve(activeTab);
+  });
+}
+
+export function getActiveTab() {
+  return new Promise( (resolve) => {
+    resolve(activeTab);
   });
 }

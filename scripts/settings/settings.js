@@ -1,7 +1,7 @@
-import { listenAddButton, listenEnterAddCompany, listenFullHideButton, listenHideNoCompaniesButton } from './listeners.js'
-import { add, setHidden, setHiddenNoCompanies } from './controller.js'
+import { listenAddButton, listenEnterAddCompany, listenFullHideButton, listenHideNoCompaniesButton, listenShowFavoredTab, listenShowIgnoredTab } from './listeners.js'
+import { add, setFavoriteTab, setHidden, setHiddenNoCompanies, setIgnoredTab} from './controller.js'
 import { getCompanies, getFullHide, getHideNoCompanies } from './model.js';
-import { renderCompanyList, renderFullHideCheckbox, renderNoCompanyCheckbox } from './view.js';
+import { renderCompanyList, renderFullHideCheckbox, renderNoCompanyCheckbox, showDefaultTab} from './view.js';
 
 startPage();
 
@@ -13,6 +13,8 @@ function setEventListeners() {
     listenEnterAddCompany(add);
     listenFullHideButton(setHidden);
     listenHideNoCompaniesButton(setHiddenNoCompanies);
+    listenShowFavoredTab(setFavoriteTab);
+    listenShowIgnoredTab(setIgnoredTab);
   });
 }
 
@@ -20,10 +22,10 @@ function startPage() {
   fullHide();
   noCompaniesHide();
   companies();
+  showDefaultTab();
 }
 
 function fullHide() {
-  console.log('???');
   getFullHide().then( (hide) => renderFullHideCheckbox(hide));
 }
 

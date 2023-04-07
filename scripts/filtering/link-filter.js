@@ -1,10 +1,12 @@
 let isFullHideMode = false;
 let isHideOffersFromNoCompanies = false;
 let ignoredCompanies = [];
+let favoriteCompanies = [];
 
 getAndListenFullHideMode();
 getAndListenHigeOffersFromNoCompanies();
 getAndListenIgnoredCompanies();
+getAndListenFavoriteCompanies();
 
 function getAndListenFullHideMode() {
   chrome.storage.local.get(['EyeFullHide']).then((result) => {
@@ -54,6 +56,22 @@ function getAndListenIgnoredCompanies() {
   });
 }
 
+function getAndListenFavoriteCompanies() {
+  chrome.storage.local.get(['EyeFavoriteCompanies']).then((result) => {
+    if (result.EyeFavoriteCompanies) {
+      favoriteCompanies = result.EyeFavoriteCompanies;
+    } else {
+      favoriteCompanies = [];
+    }
+  });
+
+  chrome.storage.onChanged.addListener(function(changes, namespace) {
+    if ("EyeFavoriteCompanies" in changes) {
+      favoriteCompanies = changes.EyeFavoriteCompanies.newValue;
+    }
+  });
+}
+
 const filterOffers =  async () => {
   document.querySelectorAll("div.job-card-container").forEach( node => {
     const names = node.querySelectorAll("a.job-card-container__company-name");
@@ -72,8 +90,9 @@ setInterval(filterOffers, 50);
 
 function setBackground(node, text, ignoredCompanies) {
   let background = "cornsilk";
-
-  if (!isFullHideMode) {
+  if (favoriteCompanies.includes(text)) {
+    background = "greenyellow";
+  } else if (!isFullHideMode) {
     if (ignoredCompanies.includes(text)) {
       background = "darkblue";
     }
@@ -86,7 +105,7 @@ function setDisplay(node, text, ignoredCompanies) {
   let display = "block";
 
   if (isFullHideMode) {
-    if (ignoredCompanies.includes(text)) {
+    if (ignoredCompanies.includes(text) && !favoriteCompanies.includes(text)) {
       display = "none";
     }
   }

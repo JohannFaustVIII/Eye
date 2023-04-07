@@ -1,5 +1,5 @@
-import { addCompany, setFullHide, setHideNoCompanies, removeCompany } from "./model.js";
-import { clearInput, renderCompanyList } from "./view.js";
+import { addCompany, setFullHide, setHideNoCompanies, removeCompany, setActiveTab } from "./model.js";
+import { clearInput, renderCompanyList, showTab } from "./view.js";
 
 export function add() {
   const companyInput = document.getElementById("company")
@@ -30,5 +30,17 @@ export function deleteCompany(event) {
 
   removeCompany(companyToDelete).then( (companies) => {
     renderCompanyList(companies);
+  });
+}
+
+export function setIgnoredTab() {
+  setActiveTab("ignored").then((activeTab) => {
+    showTab(activeTab);
+  });
+}
+
+export function setFavoriteTab() {
+  setActiveTab("favorite").then((activeTab) => {
+    showTab(activeTab);
   });
 }

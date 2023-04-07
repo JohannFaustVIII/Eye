@@ -4,16 +4,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Julee&display=swap" rel="stylesheet">
-
+    
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/company-input.css">
     <link rel="stylesheet" href="styles/filters.css">
     <link rel="stylesheet" href="styles/company.css">
+    <link rel="stylesheet" href="styles/tab.css">
   </head>
   <body>
     <div class="main-box">
       <div class="content-box">
-        <div>Ignore company in search:</div>
+        <div>Add company:</div>
         <div class = "input-line">
           <input class = "company-input" id="company" type="text"/>
           <button class = "company-add" id="add-button">+</button>
@@ -26,7 +27,16 @@
           <input class = "hide-no-companies-checkbox" id="hide-no-companies" type="checkbox"/>
           Hide offers without company
         </div>
+
+        <div class="tab">
+          <button id="ignored-tab-button">Ignored</button>
+          <button id="favored-tab-button">Favored</button>
+        </div>
+
         <div class="company-list" id = "company-ignore-list">
+        </div>
+
+        <div class="company-list" id = "company-favored-list">
         </div>
       </div>
     </div>

@@ -30,3 +30,17 @@ export function listenHideNoCompaniesButton(func) {
     hideNoCompaniesCheckbox.addEventListener("change", func);
   }
 }
+
+export function listenShowIgnoredTab(func) {
+  var but = document.getElementById("ignored-tab-button");
+  if (but) {
+    but.addEventListener("click", func);
+  }
+}
+
+export function listenShowFavoredTab(func) {
+  var but = document.getElementById("favored-tab-button");
+  if (but) {
+    but.addEventListener("click", func);
+  }
+}
