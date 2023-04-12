@@ -1,7 +1,7 @@
-import { listenAddButton, listenEnterAddCompany, listenFullHideButton, listenHideNoCompaniesButton, listenShowFavoredTab, listenShowIgnoredTab } from './listeners.js'
-import { add, setFavoriteTab, setHidden, setHiddenNoCompanies, setIgnoredTab} from './controller.js'
-import { getCompanies, getFullHide, getHideNoCompanies } from './model.js';
-import { renderCompanyList, renderFullHideCheckbox, renderNoCompanyCheckbox, showDefaultTab} from './view.js';
+import { listenAddButton, listenBaseColor, listenEnterAddCompany, listenFavoredColor, listenFullHideButton, listenHideNoCompaniesButton, listenIgnoredColor, listenShowFavoredTab, listenShowIgnoredTab } from './listeners.js'
+import { add, setBaseColor, setFavoredColor, setFavoriteTab, setHidden, setHiddenNoCompanies, setIgnoredColor, setIgnoredTab} from './controller.js'
+import { getBaseColor, getCompanies, getFavoriteColor, getFullHide, getHideNoCompanies, getIgnoredColor } from './model.js';
+import { renderBaseColor, renderCompanyList, renderFavoriteColor, renderFullHideCheckbox, renderIgnoredColor, renderNoCompanyCheckbox, showDefaultTab} from './view.js';
 
 startPage();
 
@@ -15,6 +15,9 @@ function setEventListeners() {
     listenHideNoCompaniesButton(setHiddenNoCompanies);
     listenShowFavoredTab(setFavoriteTab);
     listenShowIgnoredTab(setIgnoredTab);
+    listenBaseColor(setBaseColor);
+    listenIgnoredColor(setIgnoredColor);
+    listenFavoredColor(setFavoredColor);
   });
 }
 
@@ -23,6 +26,7 @@ function startPage() {
   noCompaniesHide();
   companies();
   showDefaultTab();
+  colorInputs();
 }
 
 function fullHide() {
@@ -35,4 +39,10 @@ function noCompaniesHide() {
 
 function companies() {
   getCompanies().then( (companies) => renderCompanyList(companies));
+}
+
+function colorInputs() {
+  getBaseColor().then( (color) => renderBaseColor(color));
+  getIgnoredColor().then( (color) => renderIgnoredColor(color));
+  getFavoriteColor().then( (color) => renderFavoriteColor(color));
 }

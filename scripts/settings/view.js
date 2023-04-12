@@ -48,12 +48,12 @@ export function showDefaultTab() {
 }
 
 const tabDict = {
-  "ignored" : ["ignored-tab-button", "company-ignore-list"],
-  "favorite" : ["favored-tab-button", "company-favored-list"]
+  "ignored" : ["ignored-tab-button", "companies-ignored"],
+  "favorite" : ["favored-tab-button", "companies-favored"]
 };
 
 export function showTab(tabName) {
-  var lists = document.getElementsByClassName("company-list")
+  var lists = document.getElementsByClassName("company-container")
   if (lists) {
     for (var i = 0; i < lists.length; i++) {
       lists[i].style.display = "none";
@@ -66,4 +66,16 @@ export function showTab(tabName) {
 
   document.getElementById(tabDict[tabName][0]).classList.add("active");
   document.getElementById(tabDict[tabName][1]).style.display = "block";
+}
+
+export function renderBaseColor(color) {
+  document.getElementById("base-color").value = color;
+}
+
+export function renderIgnoredColor(color) {
+  document.getElementById("ignored-color").value = color;
+}
+
+export function renderFavoriteColor(color) {
+  document.getElementById("favored-color").value = color;
 }

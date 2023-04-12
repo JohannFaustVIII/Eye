@@ -96,3 +96,45 @@ export function getActiveTab() {
     resolve(activeTab);
   });
 }
+
+export function saveBaseColor(color) {
+  chrome.storage.local.set({'EyeBaseColor': color});
+}
+
+export function getBaseColor() {
+  return chrome.storage.local.get(['EyeBaseColor']).then((result) => {
+    if (result.EyeBaseColor) {
+      return result.EyeBaseColor;
+    } else {
+      return '#FFF8DC';
+    }
+  });
+}
+
+export function saveIgnoredColor(color) {
+  chrome.storage.local.set({'EyeIgnoredColor': color});
+}
+
+export function getIgnoredColor() {
+  return chrome.storage.local.get(['EyeIgnoredColor']).then((result) => {
+    if (result.EyeIgnoredColor) {
+      return result.EyeIgnoredColor;
+    } else {
+      return '#00008B';
+    }
+  });
+}
+
+export function saveFavoriteColor(color) {
+  chrome.storage.local.set({'EyeFavoriteColor': color});
+}
+
+export function getFavoriteColor() {
+  return chrome.storage.local.get(['EyeFavoriteColor']).then((result) => {
+    if (result.EyeFavoriteColor) {
+      return result.EyeFavoriteColor;
+    } else {
+      return '#ADFF2F';
+    }
+  });
+}

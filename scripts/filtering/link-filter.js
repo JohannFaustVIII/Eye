@@ -2,11 +2,18 @@ let isFullHideMode = false;
 let isHideOffersFromNoCompanies = false;
 let ignoredCompanies = [];
 let favoriteCompanies = [];
+let baseColor = "#FFF8DC";
+let ignoredColor = "#00008B";
+let favoredColor = "#ADFF2F";
+
 
 getAndListenFullHideMode();
 getAndListenHigeOffersFromNoCompanies();
 getAndListenIgnoredCompanies();
 getAndListenFavoriteCompanies();
+getAndListenBaseColor();
+getAndListenIgnoredColor();
+getAndListenFavoredColor();
 
 function getAndListenFullHideMode() {
   chrome.storage.local.get(['EyeFullHide']).then((result) => {
@@ -72,6 +79,54 @@ function getAndListenFavoriteCompanies() {
   });
 }
 
+function getAndListenBaseColor() {
+  chrome.storage.local.get(['EyeBaseColor']).then((result) => {
+    if (result.EyeBaseColor) {
+      baseColor = result.EyeBaseColor;
+    } else {
+      baseColor = "#FFF8DC";
+    }
+  });
+
+  chrome.storage.onChanged.addListener(function(changes, namespace) {
+    if ("EyeBaseColor" in changes) {
+      baseColor = changes.EyeBaseColor.newValue;
+    }
+  });
+}
+
+function getAndListenIgnoredColor() {
+  chrome.storage.local.get(['EyeIgnoredColor']).then((result) => {
+    if (result.EyeIgnoredColor) {
+      ignoredColor = result.EyeIgnoredColor;
+    } else {
+      ignoredColor = "#00008B";
+    }
+  });
+
+  chrome.storage.onChanged.addListener(function(changes, namespace) {
+    if ("EyeIgnoredColor" in changes) {
+      ignoredColor = changes.EyeIgnoredColor.newValue;
+    }
+  });
+}
+
+function getAndListenFavoredColor() {
+  chrome.storage.local.get(['EyeFavoriteColor']).then((result) => {
+    if (result.EyeFavoriteColor) {
+      favoredColor = result.EyeFavoriteColor;
+    } else {
+      favoredColor = "#ADFF2F";
+    }
+  });
+
+  chrome.storage.onChanged.addListener(function(changes, namespace) {
+    if ("EyeFavoriteColor" in changes) {
+      favoredColor = changes.EyeFavoriteColor.newValue;
+    }
+  });
+}
+
 const filterOffers =  async () => {
   document.querySelectorAll("div.job-card-container").forEach( node => {
     const names = node.querySelectorAll("a.job-card-container__company-name");
@@ -89,12 +144,12 @@ const filterOffers =  async () => {
 setInterval(filterOffers, 50);
 
 function setBackground(node, text, ignoredCompanies) {
-  let background = "cornsilk";
+  let background = baseColor;
   if (favoriteCompanies.includes(text)) {
-    background = "greenyellow";
+    background = favoredColor;
   } else if (!isFullHideMode) {
     if (ignoredCompanies.includes(text)) {
-      background = "darkblue";
+      background = ignoredColor;
     }
   }
 

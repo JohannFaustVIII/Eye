@@ -44,3 +44,24 @@ export function listenShowFavoredTab(func) {
     but.addEventListener("click", func);
   }
 }
+
+export function listenBaseColor(func) {
+  var but = document.getElementById("base-color");
+  if (but) {
+    but.addEventListener("change", func);
+  }
+}
+
+export function listenIgnoredColor(func) {
+  var but = document.getElementById("ignored-color");
+  if (but) {
+    but.addEventListener("change", func);
+  }
+}
+
+export function listenFavoredColor(func) {
+  var but = document.getElementById("favored-color");
+  if (but) {
+    but.addEventListener("change", func);
+  }
+}

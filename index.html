@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="styles/filters.css">
     <link rel="stylesheet" href="styles/company.css">
     <link rel="stylesheet" href="styles/tab.css">
+    <link rel="stylesheet" href="styles/color.css">
   </head>
   <body>
     <div class="main-box">
@@ -33,11 +34,29 @@
           <button id="favored-tab-button">Favored</button>
         </div>
 
-        <div class="company-list" id = "company-ignore-list">
+        <div class="company-container" id = "companies-ignored">
+          <div class="company-list" id = "company-ignore-list">
+          </div>
+          <div class="color-pick">
+            <label class="color-label" for="ignored-color">Color for ignored offers</label>
+            <input type="color" id="ignored-color" name="ignored-color"/>
+          </div>
         </div>
 
-        <div class="company-list" id = "company-favored-list">
+        <div class="company-container" id = "companies-favored">
+          <div class="company-list" id = "company-favored-list">
+          </div>
+          <div class="color-pick">
+            <label class="color-label" for="favored-color">Color for favored offers</label>
+            <input type="color" id="favored-color" name="favored-color"/>
+          </div>
         </div>
+
+        <div class="color-pick">
+          <label class="color-label" for="base-color">Color for base offers</label>
+          <input type="color" id="base-color" name="base-color"/>
+        </div>
+
       </div>
     </div>
   </body>

@@ -1,4 +1,4 @@
-import { addCompany, setFullHide, setHideNoCompanies, removeCompany, setActiveTab } from "./model.js";
+import { addCompany, setFullHide, setHideNoCompanies, removeCompany, setActiveTab, saveBaseColor, saveIgnoredColor, saveFavoriteColor } from "./model.js";
 import { clearInput, renderCompanyList, showTab } from "./view.js";
 
 export function add() {
@@ -43,4 +43,22 @@ export function setFavoriteTab() {
   setActiveTab("favorite").then((activeTab) => {
     showTab(activeTab);
   });
+}
+
+export function setBaseColor() {
+  const color = document.getElementById("base-color").value;
+
+  saveBaseColor(color);
+}
+
+export function setIgnoredColor() {
+  const color = document.getElementById("ignored-color").value;
+
+  saveIgnoredColor(color);
+}
+
+export function setFavoredColor() {
+  const color = document.getElementById("favored-color").value;
+
+  saveFavoriteColor(color);
 }
