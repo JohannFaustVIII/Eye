@@ -195,33 +195,104 @@ function setNodeDisplay(node, dis) {
 function addFilterButtonIfNeeded(node, companyName, ignoredCompanies) {
   const companyDiv = node.querySelectorAll('div.artdeco-entity-lockup__subtitle');
   if (companyDiv && companyDiv.length > 0) {
-    const filterOutButton = companyDiv[0].querySelectorAll('button.filter-out-button');
-    const filterInButton = companyDiv[0].querySelectorAll('button.filter-in-button');
-    if (ignoredCompanies.includes(companyName)) {
-      if (filterOutButton && filterOutButton.length > 0) {
-        filterOutButton[0].remove();
-      }
-      if (!filterInButton || filterInButton.length == 0) {
-        const addButton = document.createElement('button');
-        addButton.innerText = '+';
-        addButton.classList.add('filter-in-button');
-        addButton.onclick = filterInCompany(companyName);
-        companyDiv[0].append(addButton);
-      }
-    } else {
-      if (filterInButton && filterInButton.length > 0) {
-        filterInButton[0].remove();
+    const filterButton = getButtonBoxWithButton(companyDiv, 'button.filter-button');
+    const favoriteButton = getButtonBoxWithButton(companyDiv, 'button.favorite-button');
+    const neutralButton = getButtonBoxWithButton(companyDiv, 'button.neutral-button');
+
+    if (favoriteCompanies.includes(companyName)) {
+      if (filterButton && filterButton.length > 0) {
+        filterButton[0].remove();
       }
 
-      if (!filterOutButton || filterOutButton.length == 0) {
-        const deleteButton = document.createElement('button');
-        deleteButton.innerText = '-';
-        deleteButton.classList.add('filter-out-button');
-        deleteButton.onclick = filterOutCompany(companyName);
-        companyDiv[0].append(deleteButton);
+      if (favoriteButton && favoriteButton.length > 0) {
+        favoriteButton[0].remove();
+      }
+
+      if (!neutralButton || neutralButton.length == 0) {
+        const button = createUnfavoriteButton(companyName);
+        companyDiv[0].append(button);
+      }
+
+    } else if (ignoredCompanies.includes(companyName)) {
+      if (filterButton && filterButton.length > 0) {
+        filterButton[0].remove();
+      }
+
+      if (favoriteButton && favoriteButton.length > 0) {
+        favoriteButton[0].remove();
+      }
+
+      if (!neutralButton || neutralButton.length == 0) {
+        const button = createUnignoreButton(companyName);
+        companyDiv[0].append(button);
+      }
+    } else {
+      if (neutralButton && neutralButton.length > 0) {
+        neutralButton[0].remove();
+      }
+
+      if (!filterButton || filterButton.length == 0) {
+        const button = createIgnoreButton(companyName);
+        companyDiv[0].append(button);
+      }
+
+      if (!favoriteButton || favoriteButton.length == 0) {
+        const button = createFavoriteButton(companyName);
+        companyDiv[0].append(button);
       }
     }
   }
+}
+
+function getButtonBoxWithButton(companyDiv, buttonName) {
+  let boxes = companyDiv[0].querySelectorAll('div.button-box');
+  if (!boxes) {
+    return boxes;
+  }
+  boxes = Array.from(boxes).filter( (box) => {
+    button = box.querySelectorAll(buttonName);
+    return button && button.length > 0; 
+  });
+  return boxes;
+}
+
+function createIgnoreButton(companyName) {
+  const button = document.createElement('button');
+  button.innerText = 'Ignore';
+  button.classList.add('filter-button');
+  button.onclick = filterOutCompany(companyName);
+  return wrapInButtonBox(button);
+}
+
+function createFavoriteButton(companyName) {
+  const button = document.createElement('button');
+  button.innerText = 'Favorite';
+  button.classList.add('favorite-button');
+  button.onclick = favoriteCompany(companyName);
+  return wrapInButtonBox(button);
+}
+
+function createUnignoreButton(companyName) {
+  const button = document.createElement('button');
+  button.innerText = 'Unignore';
+  button.classList.add('neutral-button');
+  button.onclick = filterInCompany(companyName);
+  return wrapInButtonBox(button);
+}
+
+function createUnfavoriteButton(companyName) {
+  const button = document.createElement('button');
+  button.innerText = 'Unfavorite';
+  button.classList.add('neutral-button');
+  button.onclick = unfavoriteCompany(companyName);
+  return wrapInButtonBox(button);
+}
+
+function wrapInButtonBox(button) {
+  const box = document.createElement('div');
+  box.classList.add('button-box');
+  box.append(button);
+  return box;
 }
 
 function filterOutCompany(companyName) {
@@ -237,5 +308,21 @@ function filterInCompany(companyName) {
       return c !== companyName;
     });
     chrome.storage.local.set({'EyeCompanies': ignoredCompanies});
+  };
+}
+
+function favoriteCompany(companyName) {
+  return () => {
+    favoriteCompanies.push(companyName);
+    chrome.storage.local.set({'EyeFavoriteCompanies': favoriteCompanies});
+  };
+}
+
+function unfavoriteCompany(companyName) {
+  return () => {
+    favoriteCompanies = favoriteCompanies.filter( (c) => {
+      return c !== companyName;
+    });
+    chrome.storage.local.set({'EyeFavoriteCompanies': favoriteCompanies});
   };
 }
