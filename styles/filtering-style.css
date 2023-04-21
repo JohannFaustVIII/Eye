@@ -1,15 +1,15 @@
 .button-box {
   display: inline-block;
-  width: fit-content;
-  margin-left: 4px;
-  margin-right: 4px;
+  width: 60px;
+  padding-left: 4px;
+  padding-right: 4px;
 
-  transition: margin-left 0.15s, margin-right 0.15s;
+  transition: padding-left 0.15s, padding-right 0.15s;
 }
 
 .button-box:hover {
-  margin-left: 0px;
-  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .button-box .filter-button,
