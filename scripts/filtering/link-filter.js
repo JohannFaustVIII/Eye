@@ -5,6 +5,7 @@ let favoriteCompanies = [];
 let baseColor = "#FFF8DC";
 let ignoredColor = "#00008B";
 let favoredColor = "#ADFF2F";
+const searchUrl = "linkedin.com/jobs/search/";
 
 
 getAndListenFullHideMode();
@@ -128,16 +129,18 @@ function getAndListenFavoredColor() {
 }
 
 const filterOffers =  async () => {
-  document.querySelectorAll("div.job-card-container").forEach( node => {
-    const names = node.querySelectorAll("a.job-card-container__company-name");
-    if (names && names.length > 0) {
-      setBackground(node, names[0].innerText.trim(), ignoredCompanies);
-      setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
-      addFilterButtonIfNeeded(node, names[0].innerText.trim(), ignoredCompanies);
-    } else {
-      setDisplayForNoCompanies(node);
-    }
-  })
+  if (window.location.href.includes(searchUrl)) {
+    document.querySelectorAll("div.job-card-container").forEach( node => {
+      const names = node.querySelectorAll("a.job-card-container__company-name");
+      if (names && names.length > 0) {
+        setBackground(node, names[0].innerText.trim(), ignoredCompanies);
+        setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
+        addFilterButtonIfNeeded(node, names[0].innerText.trim(), ignoredCompanies);
+      } else {
+        setDisplayForNoCompanies(node);
+      }
+    });
+  }
   removeRedundantContent();
 }
 
