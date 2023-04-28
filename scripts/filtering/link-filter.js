@@ -131,7 +131,7 @@ function getAndListenFavoredColor() {
 const filterOffers =  async () => {
   if (window.location.href.includes(searchUrl)) {
     document.querySelectorAll("div.job-card-container").forEach( node => {
-      const names = node.querySelectorAll("a.job-card-container__company-name");
+      const names = node.querySelectorAll("div.job-card-container__company-name");
       if (names && names.length > 0) {
         setBackground(node, names[0].innerText.trim(), ignoredCompanies);
         setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
