@@ -130,16 +130,23 @@ function getAndListenFavoredColor() {
 
 const filterOffers =  async () => {
   if (window.location.href.includes(searchUrl)) {
-    document.querySelectorAll("div.job-card-container").forEach( node => {
-      const names = node.querySelectorAll("span.job-card-container__primary-description");
-      if (names && names.length > 0) {
-        setBackground(node, names[0].innerText.trim(), ignoredCompanies);
-        setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
-        addFilterButtonIfNeeded(node, names[0].innerText.trim(), ignoredCompanies);
-      } else {
-        setDisplayForNoCompanies(node);
-      }
-    });
+    offers = document.querySelectorAll("div.job-card-container")
+    if (offers && offers.length > 0) {
+      offers.forEach( node => {
+        const names = node.querySelectorAll("div.job-card-container__company-name");
+        if (names && names.length > 0) {
+          setBackground(node, names[0].innerText.trim(), ignoredCompanies);
+          setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
+          addFilterButtonIfNeeded(node, names[0].innerText.trim(), ignoredCompanies);
+        } else {
+          console.log('Company name not found.')
+          setDisplayForNoCompanies(node);
+        }
+      });
+    } else {
+      console.log('Offers not found.')
+    }
+
   }
   removeRedundantContent();
 }
