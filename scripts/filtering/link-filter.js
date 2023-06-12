@@ -133,7 +133,7 @@ const filterOffers =  async () => {
     offers = document.querySelectorAll("div.job-card-container")
     if (offers && offers.length > 0) {
       offers.forEach( node => {
-        const names = node.querySelectorAll("div.job-card-container__company-name");
+        const names = node.querySelectorAll("span.job-card-container__primary-description");
         if (names && names.length > 0) {
           setBackground(node, names[0].innerText.trim(), ignoredCompanies);
           setDisplay(node, names[0].innerText.trim(), ignoredCompanies);
