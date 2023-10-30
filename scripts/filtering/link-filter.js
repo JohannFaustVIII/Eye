@@ -6,6 +6,7 @@ let baseColor = "#FFF8DC";
 let ignoredColor = "#00008B";
 let favoredColor = "#ADFF2F";
 const searchUrl = "linkedin.com/jobs/search/";
+const collectionUrl = "linkedin.com/jobs/collections/"
 
 
 getAndListenFullHideMode();
@@ -129,7 +130,8 @@ function getAndListenFavoredColor() {
 }
 
 const filterOffers =  async () => {
-  if (window.location.href.includes(searchUrl)) {
+  const currentUrl = window.location.href
+  if (currentUrl.includes(searchUrl) || currentUrl.includes(collectionUrl)) {
     offers = document.querySelectorAll("div.job-card-container")
     if (offers && offers.length > 0) {
       offers.forEach( node => {
