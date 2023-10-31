@@ -194,6 +194,10 @@ function removeRedundantContent() {
   document.querySelectorAll("div.premium-upsell-link").forEach( (node) => {
     node.innerHTML = "";
   });
+  
+  document.querySelectorAll("section.job-details-how-you-match-card__upsell").forEach( (node) => {
+    node.style.display = "none";
+  })
 }
 
 function setNodeBackground(node, bg) {
