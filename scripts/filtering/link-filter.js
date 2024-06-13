@@ -132,7 +132,7 @@ function getAndListenFavoredColor() {
 const filterOffers =  async () => {
   const currentUrl = window.location.href
   if (currentUrl.includes(searchUrl) || currentUrl.includes(collectionUrl)) {
-    offers = document.querySelectorAll("div.job-card-container")
+    offers = document.querySelectorAll("li.jobs-search-results__list-item")
     if (offers && offers.length > 0) {
       offers.forEach( node => {
         const names = node.querySelectorAll("span.job-card-container__primary-description");
